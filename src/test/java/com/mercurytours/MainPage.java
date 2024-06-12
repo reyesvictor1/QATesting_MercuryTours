@@ -2,7 +2,7 @@ package com.mercurytours;
 
 import static org.junit.Assert.assertEquals;
 
-//import java.time.Duration;
+import java.time.Duration;
 
 import org.junit.After;
 import org.junit.Before;
@@ -30,6 +30,13 @@ public class MainPage {
 	}
 	
 	@Test
+	public void testSignOnLink() {
+		WebElement signOnLink = driver.findElement(By.linkText("SIGN-ON"));
+		signOnLink.click();
+		assertEquals(driver.getTitle(), "Sign-on: Mercury Tours");
+	}
+	
+	@Test
 	public void testRegisterLink() {
 		WebElement registerLink = driver.findElement(By.linkText("REGISTER"));
 		registerLink.click();
@@ -37,11 +44,21 @@ public class MainPage {
 	}
 	
 	@Test
-	public void testSignOnLink() {
-		WebElement signOnLink = driver.findElement(By.linkText("SIGN-ON"));
-		signOnLink.click();
-		assertEquals(driver.getTitle(), "Sign-on: Mercury Tours");
+	public void testSupportLink() {
+		WebElement supportLink = driver.findElement(By.linkText("SUPPORT"));
+		supportLink.click();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3)); // wait for 3 seconds
+		assertEquals(driver.getTitle(), "Under Construction: Mercury Tours");
 	}
+	
+	@Test
+	public void testContactLink() {
+		WebElement contactLink = driver.findElement(By.linkText("CONTACT"));
+		contactLink.click();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3)); // wait for 3 seconds
+		assertEquals(driver.getTitle(), "Under Construction: Mercury Tours");
+	}
+	
 	
 	@After
 	public void tearDown() {
