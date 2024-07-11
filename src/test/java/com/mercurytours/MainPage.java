@@ -15,9 +15,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class MainPage {
 
 	private WebDriver driver;
+	private static boolean testingStarted = false;
 
 	@Before
 	public void setUp() {
+		if (!testingStarted) System.out.println("Testing started: MainPage class");
+		testingStarted = true;
+		
 		System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver/chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
