@@ -1,5 +1,7 @@
 package com.mercurytours;
 
+import java.time.Duration;
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
@@ -9,7 +11,10 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class UserRegistration {
 
@@ -20,7 +25,7 @@ public class UserRegistration {
 	public void setUp() {
 		if (!testingStarted) System.out.println("Testing started: UserRegistration class");
 		testingStarted = true;
-		
+
 		System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver/chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
@@ -73,9 +78,17 @@ public class UserRegistration {
 
 		WebElement signInLink = driver.findElement(By.linkText("sign-in"));
 		signInLink.click();
-
-		// TODO: close ad if visible
 		
+//		close ad if visible
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // 10 seconds timeout
+		try {
+			WebElement dismissBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("dismiss-button")));
+			dismissBtn.click();
+		} catch(TimeoutException e) {
+			System.out.println("TimeoutException thrown: dismissBtn was not found");
+//			e.printStackTrace();
+		}
+
 		WebElement signOnUserName = driver.findElement(By.name("userName"));
 		WebElement signOnPassword = driver.findElement(By.name("password"));
 		WebElement signOnSubmit = driver.findElement(By.name("submit"));
@@ -83,9 +96,9 @@ public class UserRegistration {
 		signOnPassword.sendKeys(password);
 		signOnSubmit.click();
 
-		WebElement loginText = driver.findElement(By.xpath("//h3[contains(string(),'Login Successfully')]"));
-		boolean isLoginTextVisible = loginText.isDisplayed();
-		assertTrue(isLoginTextVisible);
+		WebElement loginSuccessText = driver.findElement(By.xpath("//h3[contains(string(),'Login Successfully')]"));
+		boolean isLoginSuccessTextVisible = loginSuccessText.isDisplayed();
+		assertTrue(isLoginSuccessTextVisible);
 	}
 
 	@After

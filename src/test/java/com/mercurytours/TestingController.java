@@ -6,7 +6,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
     MainPage.class,
-    UserRegistration.class
+    UserRegistration.class,
+	FlightFinder.class
 })
 
 public class TestingController {}
