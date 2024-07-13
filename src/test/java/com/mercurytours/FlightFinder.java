@@ -1,5 +1,7 @@
 package com.mercurytours;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 
 import org.junit.After;
@@ -18,7 +20,8 @@ public class FlightFinder {
 
 	@Before
 	public void setUp() {
-		if (!testingStarted) System.out.println("Testing started: FlightFinder class");
+		if (!testingStarted)
+			System.out.println("Testing started: FlightFinder class");
 		testingStarted = true;
 
 		System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver/chromedriver.exe");
@@ -29,16 +32,21 @@ public class FlightFinder {
 
 	@Test
 	public void testFlightFinder() {
-		
+
+		// starting test in home page
+		assertEquals(driver.getTitle().trim(), "Welcome: Mercury Tours");
+
 		// click the flights link
 		WebElement flightsLink = driver.findElement(By.linkText("Flights"));
 		flightsLink.click();
+		assertEquals(driver.getTitle().trim(), "Find a Flight: Mercury Tours:");
 
 		// trip type
 		List<WebElement> tripTypes = driver.findElements(By.name("tripType"));
 		for (WebElement tripType : tripTypes) {
 			String value = tripType.getAttribute("value");
-			if (value.equals("oneway")) tripType.click();
+			if (value.equals("oneway"))
+				tripType.click();
 		}
 
 		// passengers
@@ -78,7 +86,8 @@ public class FlightFinder {
 		List<WebElement> serviceClasses = driver.findElements(By.name("servClass"));
 		for (WebElement serviceClass : serviceClasses) {
 			String value = serviceClass.getAttribute("value");
-			if (value.equals("Business")) serviceClass.click();
+			if (value.equals("Business"))
+				serviceClass.click();
 		}
 
 		// airline
@@ -89,6 +98,18 @@ public class FlightFinder {
 		// press continue (findFlights)
 		WebElement continueBtn = driver.findElement(By.name("findFlights"));
 		continueBtn.click();
+
+		// check flights results
+		driver.findElement(By.xpath("//*[contains(string(),'No Seats Avaialble')]"));
+
+		// go back to home page
+		List<WebElement> links = driver.findElements(By.tagName("a"));
+		for (WebElement link : links) {
+			String href = link.getAttribute("href");
+			if (href.equals("index.php"))
+				link.click();
+		}
+		assertEquals(driver.getTitle().trim(), "Welcome: Mercury Tours");
 
 	}
 

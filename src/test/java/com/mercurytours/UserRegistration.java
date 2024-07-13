@@ -23,7 +23,8 @@ public class UserRegistration {
 
 	@Before
 	public void setUp() {
-		if (!testingStarted) System.out.println("Testing started: UserRegistration class");
+		if (!testingStarted)
+			System.out.println("Testing started: UserRegistration class");
 		testingStarted = true;
 
 		System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver/chromedriver.exe");
@@ -70,7 +71,7 @@ public class UserRegistration {
 		confirmPasswordInput.sendKeys("12345");
 		submitBtn.click();
 
-		WebElement registerText =  driver.findElement(By.xpath("//p[contains(string(),'Dear')]"));	
+		WebElement registerText = driver.findElement(By.xpath("//p[contains(string(),'Dear')]"));
 		String registerFullName = "Dear " + firstName + " " + lastName + ",";
 
 		assertEquals(driver.getTitle(), "Register: Mercury Tours");
@@ -78,13 +79,13 @@ public class UserRegistration {
 
 		WebElement signInLink = driver.findElement(By.linkText("sign-in"));
 		signInLink.click();
-		
+
 //		close ad if visible
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // 10 seconds timeout
 		try {
 			WebElement dismissBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("dismiss-button")));
 			dismissBtn.click();
-		} catch(TimeoutException e) {
+		} catch (TimeoutException e) {
 			System.out.println("TimeoutException thrown: dismissBtn was not found");
 //			e.printStackTrace();
 		}
