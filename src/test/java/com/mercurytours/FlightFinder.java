@@ -2,8 +2,6 @@ package com.mercurytours;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,12 +40,8 @@ public class FlightFinder {
 		assertEquals(driver.getTitle().trim(), "Find a Flight: Mercury Tours:");
 
 		// trip type
-		List<WebElement> tripTypes = driver.findElements(By.name("tripType"));
-		for (WebElement tripType : tripTypes) {
-			String value = tripType.getAttribute("value");
-			if (value.equals("oneway"))
-				tripType.click();
-		}
+		WebElement tripType = driver.findElement(By.cssSelector("[name='tripType'][value='oneway']"));
+		tripType.click();
 
 		// passengers
 		WebElement passengers = driver.findElement(By.name("passCount"));
@@ -62,7 +56,7 @@ public class FlightFinder {
 		// departure date
 		WebElement departureMonth = driver.findElement(By.name("fromMonth"));
 		Select departureMonthSelect = new Select(departureMonth);
-		departureMonthSelect.selectByValue("September");
+		departureMonthSelect.selectByVisibleText("September");
 
 		WebElement departureDay = driver.findElement(By.name("fromDay"));
 		Select departureDaySelect = new Select(departureDay);
@@ -76,39 +70,31 @@ public class FlightFinder {
 		// arrival date
 		WebElement arrivalMonth = driver.findElement(By.name("toMonth"));
 		Select arrivalMonthSelect = new Select(arrivalMonth);
-		arrivalMonthSelect.selectByValue("October");
+		arrivalMonthSelect.selectByVisibleText("October");
 
 		WebElement arrivalDay = driver.findElement(By.name("toDay"));
 		Select arrivalDaySelect = new Select(arrivalDay);
 		arrivalDaySelect.selectByValue("18");
 
 		// service class
-		List<WebElement> serviceClasses = driver.findElements(By.name("servClass"));
-		for (WebElement serviceClass : serviceClasses) {
-			String value = serviceClass.getAttribute("value");
-			if (value.equals("Business"))
-				serviceClass.click();
-		}
+		WebElement serviceClass = driver.findElement(By.cssSelector("[name='servClass'][value='Business']"));
+		serviceClass.click();
 
 		// airline
 		WebElement airline = driver.findElement(By.name("airline"));
 		Select airlineSelect = new Select(airline);
-		airlineSelect.selectByValue("Unified Airlines");
+		airlineSelect.selectByVisibleText("Unified Airlines");
 
 		// press continue (findFlights)
 		WebElement continueBtn = driver.findElement(By.name("findFlights"));
 		continueBtn.click();
 
 		// check flights results
-		driver.findElement(By.xpath("//*[contains(string(),'No Seats Avaialble')]"));
+		driver.findElement(By.xpath("//*[contains(string(),'No Seats Avaialble')]")); // there is a typo: should be "Available"
 
-		// go back to home page
-		List<WebElement> links = driver.findElements(By.tagName("a"));
-		for (WebElement link : links) {
-			String href = link.getAttribute("href");
-			if (href.equals("index.php"))
-				link.click();
-		}
+		// go back to home page		
+		WebElement homeLink = driver.findElement(By.cssSelector("a[href='index.php'] > img")); // find the anchor which has an image nested inside
+		homeLink.click();
 		assertEquals(driver.getTitle().trim(), "Welcome: Mercury Tours");
 
 	}

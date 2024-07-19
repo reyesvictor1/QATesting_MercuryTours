@@ -12,7 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class MainPage {
+public class WebsiteNavigation {
 
 	private WebDriver driver;
 	private static boolean testingStarted = false;
